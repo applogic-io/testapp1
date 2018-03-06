@@ -5,19 +5,22 @@ metadata:
   namespace: $$ENVIRONMENT
   labels:
     app: $$APP_NAME
+    org: $$ORG_NAME
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: $$APP_NAME
+      org: $$ORG_NAME
   template:
     metadata:
       labels:
         app: $$APP_NAME
+        org: $$ORG_NAME
     spec:
       containers:
       - name: log$$LOG_FLAGS-$$APP_NAME-container
-        image: $$DOCKER_REGISTRY_URL/$$PROJECT_NAME/$$APP_NAME:$$IMG_VERSION
+        image: $$DOCKER_REGISTRY_URL/$$ORG_NAME/$$PROJECT_NAME/$$APP_NAME:$$IMG_VERSION
         ports:
         - containerPort: 8080
         command: ["sh"]
