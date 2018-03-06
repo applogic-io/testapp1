@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: testapp1
+  namespace: $$ENVIRONMENT
+spec:
+  selector:
+    app: testapp1
+  ports:
+  - protocol: TCP
+    port: 9008
+    targetPort: 8080
+    nodePort: 30068
+  type: LoadBalancer

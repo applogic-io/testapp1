@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1 # for versions before 1.8.0 use apps/v1beta1
+kind: Deployment
+metadata:
+  name: $$APP_NAME
+  namespace: $$ENVIRONMENT
+  labels:
+    app: $$APP_NAME
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $$APP_NAME
+  template:
+    metadata:
+      labels:
+        app: $$APP_NAME
+    spec:
+      containers:
+      - name: log$$LOG_FLAGS-$$APP_NAME-container
+        image: $$DOCKER_REGISTRY_URL/$$PROJECT_NAME/$$APP_NAME:$$IMG_VERSION
+        ports:
+        - containerPort: 8080
+        command: ["sh"]
+        args:
+          - "-c"
+          - "java -Djava.security.egd=file:/dev/./urandom -Dspring.cloud.config.uri=$$SPRING_CONFIG_SERVER_URL -Dspring.profiles.active=$$ENVIRONMENT -jar /app/$$APP_NAME.jar"
